@@ -166,8 +166,8 @@
                                 <div class="header-right-action">
                                     <a href="#" class="theme-btn theme-btn-small theme-btn-transparent mr-1"
                                         data-toggle="modal" data-target="#signupPopupForm">Sign Up</a>
-                                    <a href="#" class="theme-btn theme-btn-small" data-toggle="modal"
-                                        data-target="#loginPopupForm">Login</a>
+                                    <a href="{{  route('login') }}" class="theme-btn theme-btn-small" 
+                                        >Login</a>
                                 </div>
                             </div>
                         </div>
