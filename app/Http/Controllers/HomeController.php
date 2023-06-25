@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartment;
+use App\Models\ApartmentType;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $loggedinuser = User::where('id', auth()->user()->id)->first();
+        $assignedrole = $loggedinuser->getRoleNames()->first();
+        if ($assignedrole == "landlord") {
+            $apartments = Apartment::where('landlord_id', $loggedinuser->id)->count();
+            if ($apartments >=1){
+
+            }else{
+                $apartmenttypes = ApartmentType::select('id', 'apartment_type')->get();
+                return view('admin.apartments.create-new-apartment', compact('apartmenttypes'));
+            }
+        } else {
+            return view('home');
+        }
     }
 }
