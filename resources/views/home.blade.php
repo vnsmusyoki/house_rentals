@@ -94,19 +94,92 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-12 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Apartment Locations </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="map" style='height:400px'></div>
+                            <script type="text/javascript">
+                                function initializeMap() {
+                                    const locations = <?php echo json_encode($apartments); ?>;
+                                    console.log(locations);
+                                    const map = new google.maps.Map(document.getElementById("map"));
+                                    var infowindow = new google.maps.InfoWindow();
+                                    var bounds = new google.maps.LatLngBounds();
+                                    for (var location of locations) {
+                                        var marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(location.latitude, location.longitude),
+                                            map: map
+                                        });
+                                        bounds.extend(marker.position);
+                                        google.maps.event.addListener(marker, 'click', (function(marker, location) {
+                                            return function() {
+                                                infowindow.setContent(location.latitude + " & " + location.longitude);
+                                                infowindow.open(map, marker);
+                                            }
+                                        })(marker, location));
 
+                                    }
+                                    map.fitBounds(bounds);
+                                }
+                            </script>
+                            <script type="text/javascript"
+                                src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initializeMap"></script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-7 col-sm-12 col-12 d-flex">
                     <div class="card flex-fill">
                         <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Rental Income </h5>
-                            <div class="graph-sets">
 
-
-                            </div>
                         </div>
                         <div class="card-body">
-                            <div id="sales_charts"></div>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+                            <div>
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                            <script>
+                                var ctx = document.getElementById('lineChart').getContext('2d');
+                                var examsChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: {!! json_encode($weekLabels) !!},
+                                        datasets: [{
+                                            label: 'Exams per Week',
+                                            data: {!! json_encode($examCounts) !!},
+                                            fill: false,
+                                            borderColor: 'rgb(75, 192, 192)',
+                                            tension: 0.1
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            x: {
+                                                display: true,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Week'
+                                                }
+                                            },
+                                            y: {
+                                                display: true,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Exam Count'
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -174,7 +247,7 @@
                                     <td><a href="javascript:void(0);">{{ ucwords($apartments[0]->apartment_name) }}</a></td>
                                     <td class="productimgname">
                                         <a class="product-img" href="#">
-                                            <img src="{{  asset('backend/assets/img/product/product2.jpg') }}" alt="product">
+                                            <img src="{{ asset('backend/assets/img/product/product2.jpg') }}" alt="product">
                                         </a>
                                         <a href="">{{ ucwords($apartments[0]->apartment_name) }}</a>
                                     </td>
@@ -182,7 +255,7 @@
                                     <td>Ksh. 10, 000</td>
                                     <td><span class="badges bg-lightgrey">Unpaid</span></td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>

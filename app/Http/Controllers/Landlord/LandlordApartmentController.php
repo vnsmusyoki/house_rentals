@@ -47,10 +47,9 @@ class LandlordApartmentController extends Controller
             $add->landlord_id = auth()->user()->id;
             $add->apartment_type_id = $request->apartment_type;
             $add->apartment_name = $request->apartment_name;
-            $add->latitude = $request->apartment_name;
-            $add->longitude = $request->apartment_name;
-            $add->address = $request->apartment_name;
-            $add->address = $request->apartment_name;
+            $add->latitude = $request->address_latitude;
+            $add->longitude = $request->address_longitude;
+            $add->address = $request->address_address; 
             $fileNameWithExt = $request->apartment_photo->getClientOriginalName();
             $fileName =  pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             $Extension = $request->apartment_photo->getClientOriginalExtension();
@@ -61,7 +60,7 @@ class LandlordApartmentController extends Controller
             $add->approval_status = "approved";
             $add->save();
 
-            Toastr::success('You have successfully uploaded your first apartment.', 'Congratulations'. auth()->user()->name, ["positionClass" => "toast-top-right"]);
+            Toastr::success('You have successfully uploaded your first apartment.', 'Congratulations '. auth()->user()->name, ["positionClass" => "toast-top-right"]);
             return to_route('home');
         }
 

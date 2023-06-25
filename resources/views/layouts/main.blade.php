@@ -118,14 +118,21 @@
                                                 <img alt src="assets/img/profiles/avatar-13.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span
-                                                        class="noti-title">{{ ucwords(Auth::user()->name) }}</span>
-                                                    Paid <span class="noti-title">Ksh 1000 for
-                                                        {{ ucwords($apartments[0]->apartment_name) }}
-                                                        Room 2B</span></p>
-                                                <p class="noti-time"><span
-                                                        class="notification-time">{{ ucwords(Auth::user()->created_at->diffForHumans()) }}</span>
-                                                </p>
+                                                @role('landlord')
+                                                    @php
+                                                        $apartments = App\Models\Apartment::where('landlord_id', Auth::user()->id)->get();
+                                                    @endphp
+                                                     @if (!$apartments->isEmpty())
+                                                    <p class="noti-details"><span
+                                                            class="noti-title">{{ ucwords(Auth::user()->name) }}</span>
+                                                        Paid <span class="noti-title">Ksh 1000 for
+                                                            {{ ucwords($apartments[0]->apartment_name) }}
+                                                            Room 2B</span></p>
+                                                    <p class="noti-time"><span
+                                                            class="notification-time">{{ ucwords(Auth::user()->created_at->diffForHumans()) }}</span>
+                                                    </p>
+                                                    @endif
+                                                @endrole
                                             </div>
                                         </div>
                                     </a>
@@ -205,15 +212,16 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="submenu-open"> 
+                        <li class="submenu-open">
                             <ul>
                                 <li class="active">
-                                    <a href="{{ route('home') }}"><i data-feather="grid"></i><span>Dashboard</span></a>
+                                    <a href="{{ route('home') }}"><i
+                                            data-feather="grid"></i><span>Dashboard</span></a>
                                 </li>
-                                
+
                         </li>
                         @role('landlord')
-                        @include('layouts.landlord-menu')
+                            @include('layouts.landlord-menu')
                         @endrole
                     </ul>
                 </div>

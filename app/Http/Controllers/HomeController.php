@@ -31,13 +31,15 @@ class HomeController extends Controller
         if ($assignedrole == "landlord") {
             $apartments = Apartment::where('landlord_id', $loggedinuser->id)->get();
             if ($apartments->count() >= 1) {
+               
                 return view('home', compact('apartments'));
             } else {
                 $apartmenttypes = ApartmentType::select('id', 'apartment_type')->get();
                 return view('admin.apartments.create-new-apartment', compact('apartmenttypes'));
             }
         } else {
-            return view('home');
+            $apartments=[];
+            return view('home', compact('apartments'));
         }
     }
 }

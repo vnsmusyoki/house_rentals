@@ -8,7 +8,7 @@
     <meta name="keywords" content="#">
     <meta name="author" content="#">
     <meta name="robots" content="noindex, nofollow">
-    <title>Login Page</title>
+    <title>Sign Up Page</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backend/assets/img/favicon.png') }}">
 
@@ -34,8 +34,8 @@
                             <img src="assets/img/logo-white.png" alt>
                         </a> --}}
                         <div class="login-userheading">
-                            <h3>Sign In</h3>
-                            <h4>Please login to your account</h4>
+                            <h3>Hello,</h3>
+                            <h4>Welcome to our Rental Management System</h4>
                         </div>
                         <div class="form-login">
                             <label>Full Name</label>
