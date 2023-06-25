@@ -29,10 +29,10 @@ class HomeController extends Controller
         $loggedinuser = User::where('id', auth()->user()->id)->first();
         $assignedrole = $loggedinuser->getRoleNames()->first();
         if ($assignedrole == "landlord") {
-            $apartments = Apartment::where('landlord_id', $loggedinuser->id)->count();
-            if ($apartments >=1){
-
-            }else{
+            $apartments = Apartment::where('landlord_id', $loggedinuser->id)->get();
+            if ($apartments->count() >= 1) {
+                return view('home', compact('apartments'));
+            } else {
                 $apartmenttypes = ApartmentType::select('id', 'apartment_type')->get();
                 return view('admin.apartments.create-new-apartment', compact('apartmenttypes'));
             }

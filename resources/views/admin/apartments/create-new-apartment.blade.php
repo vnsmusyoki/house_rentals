@@ -7,7 +7,6 @@
                 <h4>Add New Apartment</h4>
             </div>
         </div>
-
         <div class="card">
             <div class="card-body">
                 <form action="{{ route('landlord.storeapartment') }}" method="POST" autocomplete="off"
@@ -80,10 +79,7 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
-
                         <div class="col-lg-12 d-flex justify-content-end">
-
                             <button class="btn btn-cancel me-2" type="reset">Cancel</button>
                             <button type="submit" class="btn btn-submit">Submit</button>
                         </div>
@@ -92,7 +88,6 @@
 
             </div>
         </div>
-       
         <script>
             var errors = {!! json_encode($errors->toArray()) !!};
             console.log(errors);

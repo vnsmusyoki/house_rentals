@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('address')->nullable();
+            $table->string('picture')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('approval_status')->nullable();
             $table->string('category_type')->nullable();
             $table->unsignedBigInteger('caretaker_id')->nullable();
             $table->foreign('landlord_id')->references('id')->on('users')->onDelete('cascade');
